@@ -37,7 +37,7 @@ class BookController extends Controller
         $request->validate([
             'title' => ['required','string'],
             'author' => ['required','string'],
-            'category_id' => ['required','exists:categories'],
+            'category_id' => ['required','exists:categories,id'],
             'published_year' => ['required','integer','digits:4'],
         ], [
             'title' => 'Judul tidak sesuai',
