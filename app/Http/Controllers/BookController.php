@@ -17,16 +17,8 @@ class BookController extends Controller
     public function index(Request $search)
     {
         $searchIndex = $search['search'];
-        $book = Book::where('is_active', true)->where('title', 'LIKE', '%'.$searchIndex.'%')->get();
+        $book = Book::where('is_active', true)->where('title', 'LIKE', '%'.$searchIndex.'%')->paginate(20);
         $category = Category::get();
-
-        if(count($book) <= 20) {
-            $book->paginate(20);
-        }
-
-        foreach($book as $item) {
-            $item['category'] = $category->where('id',$item->category_id)->pluck('name')->first();
-        }
 
         return view('admin.book', compact(['book','category']));
     }
@@ -34,23 +26,19 @@ class BookController extends Controller
     public function inactiveBooks(Request $search)
     {
         $searchIndex = $search['search'];
-        $book = Book::where('is_active', false)->where('title', 'LIKE', '%'.$searchIndex.'%')->get();
+        $book = Book::where('is_active', false)->where('title', 'LIKE', '%'.$searchIndex.'%')->paginate(20);
         $category = Category::get();
-
-        foreach($book as $item) {
-            $item['category'] = $category->where('id',$item->category_id)->pluck('name')->first();
-        }
 
         return view('admin.book-inactive', compact(['book','category']));
     }
     
     public function create(Request $request) 
     {
-        Validator::make($request->all(), [
+        $request->validate([
             'title' => ['required','string'],
             'author' => ['required','string'],
-            'category_id' => ['required','exists:category'],
-            'published_year' => ['required','numeric'],
+            'category_id' => ['required','exists:categories'],
+            'published_year' => ['required','integer','digits:4'],
         ], [
             'title' => 'Judul tidak sesuai',
             'author' => 'Penulis tidak sesuai',
@@ -88,11 +76,22 @@ class BookController extends Controller
 
     public function update(Request $request) 
     {
+        $request->validate([
+            'title-edit' => ['required','string'],
+            'author-edit' => ['required','string'],
+            'category_id-edit' => ['required','exists:categories,id'],
+            'published_year-edit' => ['required','integer','digits:4'],
+        ], [
+            'title-edit' => 'Judul tidak sesuai',
+            'author-edit' => 'Penulis tidak sesuai',
+            'category_id-edit' => 'Kategori tidak sesuai',
+            'published_year-edit' => 'Tahun terbit tidak sesuai',
+        ]);
         Book::find($request->book_id)->update([
-            'title' => $request['title'],
-            'author' => $request['author'],
-            'category_id' => $request['category_id'],
-            'published_year' => $request['published_year'],
+            'title' => $request['title-edit'],
+            'author' => $request['author-edit'],
+            'category_id' => $request['category_id-edit'],
+            'published_year' => $request['published_year-edit'],
         ]);
 
         return redirect()->back();

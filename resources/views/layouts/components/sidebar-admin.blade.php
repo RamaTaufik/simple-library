@@ -4,10 +4,9 @@
             <img src="{{ asset('image/profile_pictures/default-user.jpg') }}" alt="" class="w-50 w-md-25 ratio-1x1 border rounded-circle">
             <div class="dropdown">
                 <a id="accountDropdowm" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <i class="fa-solid fa-user"></i> {{ Auth::user()->name }}
+                    {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdowm">
-                    <a class="dropdown-item text-smaller" href="">Pengaturan Akun</a>
                     <a class="dropdown-item text-smaller text-danger" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
@@ -27,11 +26,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin') }}" class="nav-link h5 {{ $page == 'shop' ? 'active' : ''; }}">
-                    <strong><i class="fa-solid fa-shop me-2"></i>Tentang Toko</strong>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link h5" data-bs-toggle="collapse" data-bs-target="#order" aria-expanded="true" aria-controls="order">
                     <strong><i class="fa-solid fa-list-check me-2"></i>Buku</strong>
                     <i class="position-absolute fa-solid fa-caret-down h5" style="right:35px;"></i>
@@ -45,7 +39,7 @@
                     <a href="{{ route('admin.book-inactive') }}" class="nav-link {{ $page == 'book-inactive' ? 'active' : ''; }}">Buku Non-aktif</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/{{ route('admin.category') }}" class="nav-link {{ $page == 'category' ? 'active' : ''; }}">Kelola Kategori</a>
+                    <a href="{{ route('admin.category') }}" class="nav-link {{ $page == 'category' ? 'active' : ''; }}">Kelola Kategori</a>
                 </li>
             </div>
         </ul>

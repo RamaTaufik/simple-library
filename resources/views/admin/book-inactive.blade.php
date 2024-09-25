@@ -112,7 +112,7 @@ Buku Non-aktif ● ADMIN
                     <td>{{$item->id}}</td>
                     <td>{{$item->title}}</td>
                     <td>{{$item->author}}</td>
-                    <td>{{$item->category}}</td>
+                    <td>{{$item->category->name}}</td>
                     <td>{{$item->published_year}}</td>
                     <td>@if ($item->is_active) Aktif @else Non-aktif @endif</td>
                     <td>

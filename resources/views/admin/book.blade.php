@@ -53,7 +53,7 @@ Kelola Buku ● ADMIN
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="published_year">{{ __('Tahun Terbit') }}</label>
-                                <input id="published_year" type="number" class="form-control @error('published_year') is-invalid @enderror" name="published_year" value="{{ old('published_year') }}" required autocomplete="published_year" autofocus>
+                                <input id="published_year" type="number" class="form-control @error('published_year') is-invalid @enderror" name="published_year" pattern="\d{4}" value="{{ old('published_year') }}" required autocomplete="published_year" autofocus>
                                 @error('published_year')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -85,41 +85,41 @@ Kelola Buku ● ADMIN
                         @method('PUT')
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <label for="title">{{ __('Nama Buku') }}</label>
-                                <input id="title-edit" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
-                                @error('title')
+                                <label for="title-edit">{{ __('Nama Buku') }}</label>
+                                <input id="title-edit" type="text" class="form-control @error('title-edit') is-invalid @enderror" name="title-edit" value="{{ old('title-edit') }}" required autocomplete="title-edit" autofocus>
+                                @error('title-edit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="author">{{ __('Penulis') }}</label>
-                                <input id="author-edit" type="text" class="form-control @error('author') is-invalid @enderror" name="author" value="{{ old('author') }}" required autocomplete="author" autofocus>
-                                @error('author')
+                                <label for="author-edit">{{ __('Penulis') }}</label>
+                                <input id="author-edit" type="text" class="form-control @error('author-edit') is-invalid @enderror" name="author-edit" value="{{ old('author-edit') }}" required autocomplete="author-edit" autofocus>
+                                @error('author-edit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="category_id">{{ __('Kategori') }}</label>
-                                <select id="category_id-edit" class="form-select @error('category_id') is-invalid @enderror" name="category_id" value="{{ old('category_id') }}" required autocomplete="category_id" autofocus>
+                                <label for="category_id-edit">{{ __('Kategori') }}</label>
+                                <select id="category_id-edit" class="form-select @error('category_id-edit') is-invalid @enderror" name="category_id-edit" value="{{ old('category_id-edit') }}" required autocomplete="category_id-edit" autofocus>
                                     <option value="" hidden disabled selected> Pilih kategori</option>
                                     @foreach ($category as $c)
                                     <option value="{{$c->id}}">{{$c->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('category_id')
+                                @error('category_id-edit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="published_year">{{ __('Tahun Terbit') }}</label>
-                                <input id="published_year-edit" type="number" class="form-control @error('published_year') is-invalid @enderror" name="published_year" value="{{ old('published_year') }}" required autocomplete="published_year" autofocus>
-                                @error('published_year')
+                                <label for="published_year-edit">{{ __('Tahun Terbit') }}</label>
+                                <input id="published_year-edit" type="number" class="form-control @error('published_year-edit') is-invalid @enderror" name="published_year-edit" value="{{ old('published_year-edit') }}" required autocomplete="published_year-edit" autofocus>
+                                @error('published_year-edit')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -177,7 +177,7 @@ Kelola Buku ● ADMIN
                     <td>{{$item->id}}</td>
                     <td>{{$item->title}}</td>
                     <td>{{$item->author}}</td>
-                    <td>{{$item->category}}</td>
+                    <td>{{$item->category->name}}</td>
                     <td>{{$item->published_year}}</td>
                     <td>@if ($item->is_active) Aktif @else Non-aktif @endif</td>
                     <td>
