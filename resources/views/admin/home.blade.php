@@ -1,7 +1,7 @@
 @extends('layouts.app-admin', ['page' => 'home'])
 
 @section('title')
-Dashboard Admin
+Dashboard ● ADMIn
 @endsection
 
 @section('content')

@@ -1,77 +1,13 @@
-@extends('layouts.app-admin', ['page' => 'book'])
+@extends('layouts.app-admin', ['page' => 'book-inactive'])
 
 @section('title')
-Kelola Buku ● ADMIN
+Buku Non-aktif ● ADMIN
 @endsection
 
 @section('content')
-<h6 class="mb-0 pb-0">Admin / Books</h6>
-<h1>Kelola Buku</h1>
+<h6 class="mb-0 pb-0">Admin / Inactive Books</h6>
+<h1>Kelola Buku Non-aktif</h1>
 <div class="container fluid">
-    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h1 class="modal-title fs-5" id="addModalLabel">Tambah Buku Baru</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('admin.book-create') }}" class="mb-4" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <label for="title">{{ __('Nama Buku') }}</label>
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
-                                @error('title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label for="author">{{ __('Penulis') }}</label>
-                                <input id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" value="{{ old('author') }}" required autocomplete="author" autofocus>
-                                @error('author')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label for="category_id">{{ __('Kategori') }}</label>
-                                <select id="category_id" class="form-select @error('category_id') is-invalid @enderror" name="category_id" value="{{ old('category_id') }}" required autocomplete="category_id" autofocus>
-                                    <option value="" hidden disabled selected> Pilih kategori</option>
-                                    @foreach ($category as $c)
-                                    <option value="{{$c->id}}">{{$c->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('category_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label for="published_year">{{ __('Tahun Terbit') }}</label>
-                                <input id="published_year" type="number" class="form-control @error('published_year') is-invalid @enderror" name="published_year" value="{{ old('published_year') }}" required autocomplete="published_year" autofocus>
-                                @error('published_year')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="d-flex flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Tambah') }}
-                            </button>
-                            <button type="button" class="ms-2 btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -140,10 +76,10 @@ Kelola Buku ● ADMIN
     </div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page">Kelola Buku</a>
+            <a class="nav-link" href="{{ route('admin.book') }}">Kelola Buku</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.book-inactive') }}">Buku Non-aktif</a>
+            <a class="nav-link active" aria-current="page">Buku Non-aktif</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.category') }}">Kelola Kategori</a>
@@ -157,7 +93,6 @@ Kelola Buku ● ADMIN
                     <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </form>
-            <button class="btn btn-secondary float-end" data-bs-toggle="modal" data-bs-target="#addModal"><i class="fa-solid fa-plus"></i> Tambah</button>
         </div>
         <table class="table">
             <thead class="align-middle">
@@ -181,8 +116,13 @@ Kelola Buku ● ADMIN
                     <td>{{$item->published_year}}</td>
                     <td>@if ($item->is_active) Aktif @else Non-aktif @endif</td>
                     <td>
-                        <a class="btn btn-secondary p-0 px-2" onclick="rturn confirm('Yakin ingin mengenon-aktifkan?')" href="{{ route('admin.book-inactivate', $item->id) }}">Non-aktifkan</a>
-                        <a class="btn btn-warning p-0 px-2" onclick="edit({{json_encode($item)}})" data-bs-toggle="modal" href="#editModal"><i class="fa-solid fa-pencil"></i></a>
+                        <form action="{{ route('admin.book-delete', $item->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <a class="btn btn-secondary p-0 px-2" href="{{ route('admin.book-activate', $item->id) }}">Aktifkan</a>
+                            <a class="btn btn-warning p-0 px-2" onclick="edit({{json_encode($item)}})" data-bs-toggle="modal" href="#editModal"><i class="fa-solid fa-pencil"></i></a>
+                            <button type="submit" onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-danger p-0 px-2"><i class="fa-solid fa-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

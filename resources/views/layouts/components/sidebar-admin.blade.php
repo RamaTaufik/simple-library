@@ -39,13 +39,13 @@
             </li>
             <div id="order" class="accordion-collapse collapse show mb-3 ps-3">
                 <li class="nav-item">
-                    <a href="/admin/statistic-user" class="nav-link {{ $page == 'book' ? 'active' : ''; }}">Kelola Buku</a>
+                    <a href="{{ route('admin.book') }}" class="nav-link {{ $page == 'book' ? 'active' : ''; }}">Kelola Buku</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/statistic-seller" class="nav-link {{ $page == 'book-inactive.status' ? 'active' : ''; }}">Buku Non-aktif</a>
+                    <a href="{{ route('admin.book-inactive') }}" class="nav-link {{ $page == 'book-inactive' ? 'active' : ''; }}">Buku Non-aktif</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/statistic-selling" class="nav-link {{ $page == 'category.cancel' ? 'active' : ''; }}">Kelola Kategori</a>
+                    <a href="/{{ route('admin.category') }}" class="nav-link {{ $page == 'category' ? 'active' : ''; }}">Kelola Kategori</a>
                 </li>
             </div>
         </ul>
